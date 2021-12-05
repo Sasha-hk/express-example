@@ -9,7 +9,7 @@ router.post('/sign-in')
 router.post('/sign-out')
 
 router.get('/refresh')
-router.get('/activate')
+router.get('/activate/:slug')
 router.get('/users')
 
 
