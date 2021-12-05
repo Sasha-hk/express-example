@@ -1,24 +1,27 @@
 import express from 'express'
-import path from 'path'
 import mongoose from 'mongoose'
-import {router} from './router.js'
 import dotenv from 'dotenv'
+import cors from 'cors'
+import cookieParser from 'cookie-parser'
 
 
 dotenv.config()
-
-const __dirname = path.resolve()
-const PORT = 3000
-const DB_URL = process.env.DB_URL
-
 const app = express()
+const PORT = process.env.PORT || 3000
+
 
 app.use(express.json())
-app.use('/', router)
+app.use(cookieParser())
+app.use(cors())
 
-async function startApp() {
+
+async function start() {
     try {
-        await mongoose.connect(DB_URL, {useUnifiedTopology: true, useNewUrlParser: true})
+        await mongoose.connect(process.env.DB_URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        })
+
         app.listen(PORT, () => {
             console.log(`Server started on port ${PORT}...`)
         })
@@ -28,4 +31,5 @@ async function startApp() {
     }
 }
 
-startApp()
+
+start()
