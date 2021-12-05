@@ -1,7 +1,8 @@
-import { Schema, model } from 'mongoose'
+import mongoose from 'mongoose';
+const { Schema, model } = mongoose;
 
 
-const UserSchema = new Schema({
+const UserModel = new Schema({
     email: {
         type: String,
         unique: true,
@@ -13,11 +14,11 @@ const UserSchema = new Schema({
     },
     isActivated: {
         type: Boolean,
-        defaul: false,
+        default: false,
     },
     activationLink: {
         type: String,
-    },
+    }
 })
 
 
