@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-const { Schema, models } = mongoose
+const { Schema, model } = mongoose
 
 const TokenModel = new Schema({
     user: {
@@ -13,4 +13,4 @@ const TokenModel = new Schema({
 })
 
 
-export default models('Token', TokenModel)
+export default model('Token', TokenModel)

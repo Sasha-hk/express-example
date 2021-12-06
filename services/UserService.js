@@ -1,4 +1,5 @@
 import UserModel from '../models/UserModel.js'
+import TokenModel from '../models/TokenModel.js'
 import TokenService from './TokenService.js'
 import UserDto from '../dtos/UserDto.js'
 import UserError from '../exceptions/userError.js'
@@ -40,9 +41,29 @@ class UserService {
 
         const userDto = new UserDto(user);
         const tokens = TokenService.generateTokens({...userDto});
-
         await TokenService.saveToken(userDto.id, tokens.refreshToken);
+        
         return {...tokens, user: userDto}
+    }
+
+    async refresh(refreshToken) {
+       if (!refreshToken) {
+           return UserError.BadRequest('Not refresh token')
+       }
+       
+       const userData = TokenService.validateToken(refreshToken)
+       const tokenFromDB = TokenModel.findOne({refreshToken})
+
+       if (!userData || !tokenFromDB) {
+          throw UserError.BadRequest() 
+       }
+       const user = await UserModel.findById(userData.id) 
+       const userDto = new userDto(user)
+       const tokens = TokenService.generateToken(userDto)
+
+       await TokenService.saveTokens(userDto.id, tokens.refreshToken)
+
+       return {...tokens, user: userDto}
     }
 }
 

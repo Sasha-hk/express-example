@@ -8,7 +8,7 @@ router.post('/sign-up', UserController.signUp)
 router.post('/sign-in', UserController.login)
 router.post('/sign-out')
 
-router.get('/refresh')
+router.get('/refresh', UserController.refresh)
 router.get('/activate/:slug')
 router.get('/users')
 
