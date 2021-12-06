@@ -9,6 +9,10 @@ export default class AuthenticationError extends Error {
     }
 
     static EmailExists() {
-        return AuthnticationError(400, 'User with whis email already exists')
+        return new AuthenticationError(400, 'User with whis email already exists')
+    }
+
+    static BadRequest(message, errors = []) {
+        return new AuthenticationError(400, message, errors);
     }
 }

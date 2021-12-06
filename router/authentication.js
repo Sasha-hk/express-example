@@ -1,9 +1,10 @@
-import Router from 'express'
+import Router from 'express' 
+import UserController from '../controllers/user-controller.js'
 
 
 const router = new Router()
 
-router.post('/register')
+router.post('/register', UserController.registration)
 router.post('/log-in')
 router.post('/log-out')
 
