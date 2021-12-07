@@ -26,8 +26,27 @@ class UserService {
         return {...tokens, user: userData}
     }
 
-    async logIn() {
+    async logIn(email, password) {
+        try {
+            const candedat = await UserModel.findOne({email})
 
+            if (!candedat) {
+                throw AuthenticationError.EmailDoesNotExists()
+            }
+
+            const passwordFromDB = candedat.password 
+            if (!bcrypt.compareSync(password, passwordFromDB)) {
+                throw AuthenticationError.InvalidPassword()
+            }
+
+            const userData = new UserDto(candedat)
+            const tokens = await TokenService.generateTokens({...userData})
+
+            return {...tokens, user: userData}
+        }
+        catch (e) {
+            return null
+        }
     }
 
     async logOut() {

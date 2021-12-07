@@ -5,7 +5,7 @@ import UserController from '../controllers/user-controller.js'
 const router = new Router()
 
 router.post('/register', UserController.registration)
-router.post('/log-in')
+router.post('/log-in', UserController.logIn)
 router.post('/log-out')
 
 router.get('/refresh')

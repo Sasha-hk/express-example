@@ -12,6 +12,14 @@ export default class AuthenticationError extends Error {
         return new AuthenticationError(400, 'User with whis email already exists')
     }
 
+    static EmailDoesNotExists() {
+        return new AuthenticationError(400, 'User with this email does not exists')
+    }
+
+    static InvalidPassword() {
+        return new AuthenticationError(400, 'Password is incorrect')
+    }
+
     static BadRequest(message, errors = []) {
         return new AuthenticationError(400, message, errors);
     }
