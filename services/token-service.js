@@ -21,12 +21,43 @@ class TokenService {
             user: userId,
             refreshToken
         }) 
+
+        console.log(TokenModel.findOne({user: userId}))
+
         return newToken
     }
 
-    verify(token) {
+    validateRefreshToken(token) {
         try {
             return jwt.verify(token, process.env.JWT_REFRESH_SECRET)
+        }
+        catch (e) {
+            return null
+        }
+    }
+
+    validateAccessToken(token) {
+        try {
+            return jwt.verify(token, process.env.JWT_ACCESS_SECRET)
+        }
+        catch (e) {
+            return null
+        }
+    }
+
+    async removeToken(refreshToken) {
+        try {
+            const token = await TokenModel.findOne({refreshToken})
+            return token
+        }
+        catch (e) {
+            return null
+        }
+    }
+
+    async findRefreshToken(token) {
+        try {
+            const token = await TokenModel.findOne({refreshToken: token})
         }
         catch (e) {
             return null

@@ -49,8 +49,9 @@ class UserService {
         }
     }
 
-    async logOut() {
-
+    async logOut(refreshToken) {
+        const token = await TokenService.removeToken(refreshToken)
+        return token
     }
 
     async refresh() {
