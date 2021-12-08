@@ -20,9 +20,7 @@ class TokenService {
         const newToken = await TokenModel.create({
             user: userId,
             refreshToken
-        }) 
-
-        console.log(TokenModel.findOne({user: userId}))
+        })
 
         return newToken
     }

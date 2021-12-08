@@ -40,16 +40,12 @@ class UserService {
             }
 
             const userData = new UserDto(candedat)
-            console.log(userData)
             const tokens = TokenService.generateTokens({...userData})
-            console.log(tokens)
-            console.log(tokens.refreshToken)
             await TokenService.saveToken(userData.id, tokens.refreshToken)
             
             return {...tokens, user: userData}
         }
         catch (e) {
-            console.log(e)
             return null
         }
     }
@@ -72,10 +68,11 @@ class UserService {
                 throw AuthenticationError.BadRequest()
             }
 
-            const userData = await UserService.findOne({_id: validatedToken.user})
+            const userData = await UserModel.findOne({_id: oldToken.user})
             const userDto = new UserDto(userData)
-            const tokens = await TokenService.generateTokens(userDto)
-            await TokenService.saveToken(tokens.refreshToken)
+            const tokens = TokenService.generateTokens({userDto})
+            
+            await TokenService.saveToken(userDto.id, tokens.refreshToken)
 
             return {...tokens, user: UserDto}
         }

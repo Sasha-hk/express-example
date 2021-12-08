@@ -20,7 +20,6 @@ class UserController {
         try {
             const {email, password} = req.body 
             const userData = await UserService.logIn(email, password)
-            
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000})
             res.json(userData) 
         }
@@ -43,19 +42,8 @@ class UserController {
 
     async refresh(req, res, next) {
         try {
-            const {refreshToken} = req.cookies
-
-            
-            if (!refreshToken) {
-                throw AuthenticationError.NoRefreshToken()
-            }
-            
+            const {refreshToken} = req.cookies            
             const userData = await UserService.refresh(refreshToken)
-            
-            if (!userData) {
-                throw AuthenticationError.BadRequest()
-            }
-
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000})
             res.json(userData)
         }
