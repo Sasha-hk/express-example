@@ -1,4 +1,5 @@
 import UserService from '../services/user-service.js'
+import AuthenticationError from '../exceptions/AuthenticationError.js';
 
 
 class UserController {
@@ -34,6 +35,29 @@ class UserController {
             const token = await UserService.logOut(refreshToken)
             res.clearCookie('refreshToken');
             return res.json(token);
+        }
+        catch (e) {
+            next(e)
+        }
+    }
+
+    async refresh(req, res, next) {
+        try {
+            const {refreshToken} = req.cookies
+
+            
+            if (!refreshToken) {
+                throw AuthenticationError.NoRefreshToken()
+            }
+            
+            const userData = await UserService.refresh(refreshToken)
+            
+            if (!userData) {
+                throw AuthenticationError.BadRequest()
+            }
+
+            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000})
+            res.json(userData)
         }
         catch (e) {
             next(e)

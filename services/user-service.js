@@ -54,8 +54,26 @@ class UserService {
         return token
     }
 
-    async refresh() {
+    async refresh(refreshToken) {
+        try {        
+            const oldToken = await TokenService.findRefreshToken(refreshToken)
 
+            if (!oldToken) {
+                throw AuthenticationError.RefreshTokenInvalid()
+            }
+
+            const userData = UserModel.findOne({_id: oldToken.user})
+            const userDto = new UserDto(userData)
+            const tokens = TokenService.generateTokens(userDto)
+            await TokenService.saveToken(tokens.refreshToken)
+
+            cosnole.log({...tokens, user: UserDto})
+
+            return {...tokens, user: UserDto}
+        }
+        catch (e) {
+            return null
+        }
     }
 }
 

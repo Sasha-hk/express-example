@@ -55,9 +55,10 @@ class TokenService {
         }
     }
 
-    async findRefreshToken(token) {
+    async findRefreshToken(refreshToken) {
         try {
-            const token = await TokenModel.findOne({refreshToken: token})
+            const token = await TokenModel.findOne({refreshToken})
+            return token
         }
         catch (e) {
             return null

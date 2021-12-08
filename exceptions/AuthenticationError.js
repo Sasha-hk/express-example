@@ -20,7 +20,15 @@ export default class AuthenticationError extends Error {
         return new AuthenticationError(400, 'Password is incorrect')
     }
 
-    static BadRequest(message, errors = []) {
+    static NoRefreshToken() {
+        return new AuthenticationError(400, 'No refresh token')
+    }
+
+    static RefreshTokenInvalid() {
+        return new AuthenticationError(400, 'Refresh token is invalid')
+    }
+
+    static BadRequest(message = "", errors = []) {
         return new AuthenticationError(400, message, errors);
     }
 }
