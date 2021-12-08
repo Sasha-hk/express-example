@@ -40,11 +40,16 @@ class UserService {
             }
 
             const userData = new UserDto(candedat)
-            const tokens = await TokenService.generateTokens({...userData})
-
+            console.log(userData)
+            const tokens = TokenService.generateTokens({...userData})
+            console.log(tokens)
+            console.log(tokens.refreshToken)
+            await TokenService.saveToken(userData.id, tokens.refreshToken)
+            
             return {...tokens, user: userData}
         }
         catch (e) {
+            console.log(e)
             return null
         }
     }
@@ -56,18 +61,21 @@ class UserService {
 
     async refresh(refreshToken) {
         try {        
-            const oldToken = await TokenService.findRefreshToken(refreshToken)
-
-            if (!oldToken) {
-                throw AuthenticationError.RefreshTokenInvalid()
+            if (!refreshToken) {
+                throw AuthenticationError.NoRefreshToken()
             }
 
-            const userData = UserModel.findOne({_id: oldToken.user})
-            const userDto = new UserDto(userData)
-            const tokens = TokenService.generateTokens(userDto)
-            await TokenService.saveToken(tokens.refreshToken)
+            const oldToken = await TokenService.findRefreshToken(refreshToken)
+            const validatedToken = TokenService.validateRefreshToken(refreshToken)
 
-            cosnole.log({...tokens, user: UserDto})
+            if (!oldToken || !validatedToken) {
+                throw AuthenticationError.BadRequest()
+            }
+
+            const userData = await UserService.findOne({_id: validatedToken.user})
+            const userDto = new UserDto(userData)
+            const tokens = await TokenService.generateTokens(userDto)
+            await TokenService.saveToken(tokens.refreshToken)
 
             return {...tokens, user: UserDto}
         }
