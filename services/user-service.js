@@ -79,7 +79,7 @@ class UserService {
         catch (e) {
             return null
         }
-    }
+    } 
 }
 
 

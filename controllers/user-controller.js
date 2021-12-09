@@ -1,5 +1,6 @@
 import UserService from '../services/user-service.js'
-import AuthenticationError from '../exceptions/AuthenticationError.js';
+import AuthenticationError from '../exceptions/AuthenticationError.js'
+import UserModel from '../models/UserModel.js'
 
 
 class UserController {
@@ -50,6 +51,11 @@ class UserController {
         catch (e) {
             next(e)
         }
+    }
+
+    async getUsers(req, res, next) {
+        const users = await UserModel.find()
+        res.json(users)
     }
 }
 

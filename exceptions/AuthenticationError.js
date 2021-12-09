@@ -28,6 +28,10 @@ export default class AuthenticationError extends Error {
         return new AuthenticationError(400, 'Refresh token is invalid')
     }
 
+    static AuthorizedError() {
+        return new AuthenticationError(400, 'User is not authenticated')
+    }
+
     static BadRequest(message = "", errors = []) {
         return new AuthenticationError(400, message, errors);
     }
