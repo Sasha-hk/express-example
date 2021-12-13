@@ -1,10 +1,13 @@
 import pg from 'pg'
+import dotenv from 'dotenv'
 
+
+dotenv.config()
 
 const { Pool } = pg
 
 const pool = new Pool({
-    user: process.env.DB_USERNAME,
+    user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -25,10 +28,9 @@ async function baseSet() {
             FOREIGN KEY (user_id) REFERENCES UserModel (id)
         );
     `)
-
-    console.log(1)
 }
 
 await baseSet()
+
 
 export default pool
