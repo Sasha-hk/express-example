@@ -1,6 +1,9 @@
-import TokenModel from '../models/TokenModel.js'
 import jwt from 'jsonwebtoken'
+import db from '../models/db.js'
+import dotenv from 'dotenv'
 
+
+dotenv.config()
 
 class TokenService {
     generateTokens(payload) {
@@ -11,16 +14,27 @@ class TokenService {
     }
 
     async saveToken(userId, refreshToken) {
-        const existingToken = await TokenModel.findOne({user: userId})
-        if (existingToken) {
-            existingToken.refreshToken = refreshToken
-            return existingToken.save()
+        const existingToken = (await db.query(`
+            SELECT * FROM token WHERE user_id='${userId}';
+        `)).rows
+
+        if (existingToken.length != 0) {
+            const existedSave = db.query(`
+                UPDATE token
+                SET refresh_token='${refreshToken}'
+                WHERE user_id=${userId};
+            `)
+            console.log(existedSave)
+            return existedSave
         }
 
-        const newToken = await TokenModel.create({
-            user: userId,
-            refreshToken
-        })
+        const newToken = (await db.query(`
+            INSERT INTO token (user_id, refresh_token) values
+            (
+                ${userId},
+                '${refreshToken}'
+            ) RETURNING *;
+        `)).rows[0]
 
         return newToken
     }
