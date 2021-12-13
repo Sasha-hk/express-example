@@ -3,7 +3,7 @@ class UserDto {
     email 
 
     constructor(model) {
-        this.id = model._id 
+        this.id = model.id 
         this.email = model.email
     }
 }

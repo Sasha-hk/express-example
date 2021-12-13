@@ -18,14 +18,15 @@ async function baseSet() {
     await pool.query(`
         CREATE TABLE IF NOT EXISTS usermodel(
             id SERIAL PRIMARY KEY,
-            user_id INTEGER,
-            FOREIGN KEY (user_id) REFERENCES UserModel (id)
+            email VARCHAR(255),
+            password VARCHAR(1000)
         );
 
         CREATE TABLE IF NOT EXISTS token(
             id SERIAL PRIMARY KEY,
             user_id INTEGER,
-            FOREIGN KEY (user_id) REFERENCES UserModel (id)
+            refresh_token VARCHAR(1000),
+            FOREIGN KEY (user_id) REFERENCES usermodel (id)
         );
     `)
 }
