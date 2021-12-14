@@ -24,7 +24,6 @@ class TokenService {
                 SET refresh_token='${refreshToken}'
                 WHERE user_id=${userId};
             `)
-            console.log(existedSave)
             return existedSave
         }
 
@@ -59,7 +58,9 @@ class TokenService {
 
     async removeToken(refreshToken) {
         try {
-            const token = await TokenModel.findOne({refreshToken})
+            const token = await db.query(`
+                DELETE FROM token  WHERE refresh_token='${refreshToken}'; 
+            `)
             return token
         }
         catch (e) {
@@ -69,7 +70,9 @@ class TokenService {
 
     async findRefreshToken(refreshToken) {
         try {
-            const token = await TokenModel.findOne({refreshToken})
+            const token = (await db.query(`
+                SELECT * FROM token WHERE refresh_token = '${refreshToken}';
+            `)).rows[0]
             return token
         }
         catch (e) {
