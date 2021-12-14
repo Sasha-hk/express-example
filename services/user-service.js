@@ -18,11 +18,8 @@ class UserService {
 
         const handledPassword = await bcrypt.hash(password, 1)
         const newUser = (await db.query(`
-            INSERT INTO usermodel 
-            (email, password) 
-            values 
-            (${email}, '123')
-            RETURNING *;
+            INSERT INTO usermodel (email, password) values 
+            (${email}, '${handledPassword}') RETURNING *;
         `)).rows[0]
 
         const userData = new UserDto(newUser)
@@ -33,29 +30,34 @@ class UserService {
         return {...tokens, user: userData}
     }
 
-    // async logIn(email, password) {
-    //     try {
-    //         const candedat = await UserModel.findOne({email})
+    async logIn(email, password) {
+        try {
+            const candedat = (await db.query(`
+                SELECT * FROM usermodel WHERE email='${email}' LIMIT 1;
+            `)).rows
 
-    //         if (!candedat) {
-    //             throw AuthenticationError.EmailDoesNotExists()
-    //         }
+            console.log(candedat)
+            cosole.log(!candedat)
 
-    //         const passwordFromDB = candedat.password 
-    //         if (!bcrypt.compareSync(password, passwordFromDB)) {
-    //             throw AuthenticationError.InvalidPassword()
-    //         }
+            if (!candedat) {
+                throw AuthenticationError.EmailDoesNotExists()
+            }
 
-    //         const userData = new UserDto(candedat)
-    //         const tokens = TokenService.generateTokens({...userData})
-    //         await TokenService.saveToken(userData.id, tokens.refreshToken)
+            // const passwordFromDB = candedat.password 
+            // if (!bcrypt.compareSync(password, passwordFromDB)) {
+            //     throw AuthenticationError.InvalidPassword()
+            // }
+
+            // const userData = new UserDto(candedat)
+            // const tokens = TokenService.generateTokens({...userData})
+            // await TokenService.saveToken(userData.id, tokens.refreshToken)
             
-    //         return {...tokens, user: userData}
-    //     }
-    //     catch (e) {
-    //         return null
-    //     }
-    // }
+            // return {...tokens, user: userData}
+        }
+        catch (e) {
+            return null
+        }
+    }
 
     // async logOut(refreshToken) {
     //     const token = await TokenService.removeToken(refreshToken)
