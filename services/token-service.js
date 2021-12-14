@@ -59,10 +59,13 @@ class TokenService {
 
     async removeToken(refreshToken) {
         try {
-            const token = await TokenModel.findOne({refreshToken})
+            const token = await db.query(`
+                DELETE FROM token  WHERE refresh_token='${refreshToken}'; 
+            `)
             return token
         }
         catch (e) {
+            console.log(e)
             return null
         }
     }

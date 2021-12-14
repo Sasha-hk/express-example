@@ -57,10 +57,10 @@ class UserService {
         }
     }
 
-    // async logOut(refreshToken) {
-    //     const token = await TokenService.removeToken(refreshToken)
-    //     return token
-    // }
+    async logOut(refreshToken) {
+        const token = await TokenService.removeToken(refreshToken)
+        return token
+    }
 
     // async refresh(refreshToken) {
     //     try {        

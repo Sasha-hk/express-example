@@ -28,17 +28,17 @@ class UserController {
         }
     }
 
-    // async logOut(req, res, next) {
-    //     try {
-    //         const {refreshToken} = req.cookies 
-    //         const token = await UserService.logOut(refreshToken)
-    //         res.clearCookie('refreshToken');
-    //         return res.json(token);
-    //     }
-    //     catch (e) {
-    //         next(e)
-    //     }
-    // }
+    async logOut(req, res, next) {
+        try {
+            const {refreshToken} = req.cookies
+            const token = await UserService.logOut(refreshToken)
+            res.clearCookie('refreshToken');
+            return res.json(token.rows);
+        }
+        catch (e) {
+            next(e)
+        }
+    }
 
     // async refresh(req, res, next) {
     //     try {
