@@ -62,31 +62,33 @@ class UserService {
         return token
     }
 
-    // async refresh(refreshToken) {
-    //     try {        
-    //         if (!refreshToken) {
-    //             throw AuthenticationError.NoRefreshToken()
-    //         }
+    async refresh(refreshToken) {
+        try {        
+            if (!refreshToken) {
+                throw AuthenticationError.NoRefreshToken()
+            }
 
-    //         const oldToken = await TokenService.findRefreshToken(refreshToken)
-    //         const validatedToken = TokenService.validateRefreshToken(refreshToken)
+            const oldToken = await TokenService.findRefreshToken(refreshToken)
+            const validatedToken = TokenService.validateRefreshToken(refreshToken)
 
-    //         if (!oldToken || !validatedToken) {
-    //             throw AuthenticationError.BadRequest()
-    //         }
+            if (!oldToken || !validatedToken) {
+                throw AuthenticationError.BadRequest()
+            }
 
-    //         const userData = await UserModel.findOne({_id: oldToken.user})
-    //         const userDto = new UserDto(userData)
-    //         const tokens = TokenService.generateTokens({userDto})
+            const userData = (await db.query(`
+                SELECT * FROM usermodel WHERE id='${oldToken.user_id}';
+            `)).rows[0]
+            const userDto = new UserDto(userData)
+            const tokens = TokenService.generateTokens({userDto})
             
-    //         await TokenService.saveToken(userDto.id, tokens.refreshToken)
+            await TokenService.saveToken(userDto.id, tokens.refreshToken)
 
-    //         return {...tokens, user: UserDto}
-    //     }
-    //     catch (e) {
-    //         return null
-    //     }
-    // } 
+            return {...tokens, user: UserDto}
+        }
+        catch (e) {
+            return null
+        }
+    } 
 }
 
 
