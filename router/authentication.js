@@ -9,6 +9,7 @@ router.post('/log-in', UserController.logIn)
 router.post('/log-out', UserController.logOut)
 
 router.get('/refresh', UserController.refresh)
-// router.get('/users', AuthenticationMiddleware, UserController.getUsers)
+router.get('/users', AuthenticationMiddleware, UserController.getUsers)
+
 
 export default router
