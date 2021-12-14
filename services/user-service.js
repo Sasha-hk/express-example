@@ -10,9 +10,9 @@ class UserService {
  
         const existingUser = (await db.query(`
             SELECT * FROM usermodel WHERE email='${email}' LIMIT 1;  
-        `)).rows
+        `)).rows[0]
         
-        if (existingUser.length != 0) {
+        if (existingUser) {
             throw AuthenticationError.EmailExists()
         }
 
@@ -34,25 +34,23 @@ class UserService {
         try {
             const candedat = (await db.query(`
                 SELECT * FROM usermodel WHERE email='${email}' LIMIT 1;
-            `)).rows
-
-            console.log(candedat)
-            cosole.log(!candedat)
+            `)).rows[0]
 
             if (!candedat) {
                 throw AuthenticationError.EmailDoesNotExists()
             }
 
-            // const passwordFromDB = candedat.password 
-            // if (!bcrypt.compareSync(password, passwordFromDB)) {
-            //     throw AuthenticationError.InvalidPassword()
-            // }
+            const passwordFromDB = candedat.password 
 
-            // const userData = new UserDto(candedat)
-            // const tokens = TokenService.generateTokens({...userData})
-            // await TokenService.saveToken(userData.id, tokens.refreshToken)
+            if (!bcrypt.compareSync(password, passwordFromDB)) {
+                throw AuthenticationError.InvalidPassword()
+            }
+
+            const userData = new UserDto(candedat)
+            const tokens = TokenService.generateTokens({...userData})
+            await TokenService.saveToken(userData.id, tokens.refreshToken)
             
-            // return {...tokens, user: userData}
+            return {...tokens, user: userData}
         }
         catch (e) {
             return null
