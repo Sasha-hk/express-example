@@ -13,10 +13,6 @@ module.exports = (sequelize, DataTypes) => {
         refresh_token: {
             type: DataTypes.STRING,
         },
-        // user_id: {
-        //     model: 'User',
-        //     key: 'id',
-        // }
     }, {});
 
     TokenModel.associate = function(models) {

@@ -3,7 +3,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
 const Sequelize = require('sequelize')
-const db = require('./models/index')
+const db = require('./models/index.js')
 
 
 dotenv.config()
