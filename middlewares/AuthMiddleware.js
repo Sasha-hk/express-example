@@ -1,5 +1,5 @@
-import AuthenticationError from '../exceptions/AuthenticationError.js'
-import TokenService from '../services/token-service.js'
+const AuthenticationError = require('../exceptions/AuthenticationError')
+const TokenService = require('../services/token-service')
 
 function checkAuthentication(req, res, next) {
     try {
@@ -24,4 +24,4 @@ function checkAuthentication(req, res, next) {
 }
 
 
-export default checkAuthentication
+module.exports = checkAuthentication

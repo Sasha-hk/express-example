@@ -1,5 +1,5 @@
-import Sequelize from 'sequence'
-import UserModel from './UserModel.js'
+const UserModel = require('./UserModel')
+const Sequelize = require('sequelize')
 
 
 const TokenModel = Sequelize.define('token', {
@@ -14,4 +14,4 @@ const TokenModel = Sequelize.define('token', {
 })
 
 
-export default TokenModel
+module.exports = TokenModel

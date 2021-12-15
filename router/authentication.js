@@ -1,6 +1,7 @@
-import Router from 'express' 
-import UserController from '../controllers/user-controller.js'
-import AuthenticationMiddleware from '../middlewares/AuthMiddleware.js'
+const Router = require('express')
+const UserController = require('../controllers/user-controller')
+const AuthenticationMiddleware = require('../middlewares/AuthMiddleware')
+
 
 const router = new Router()
 
@@ -12,4 +13,4 @@ router.get('/refresh', UserController.refresh)
 router.get('/users', AuthenticationMiddleware, UserController.getUsers)
 
 
-export default router
+module.exports = router

@@ -2,7 +2,6 @@
   "name": "express-example",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js"
@@ -32,6 +31,7 @@
   },
   "devDependencies": {
     "colors": "^1.4.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "sequelize-cli": "^6.3.0"
   }
 }
