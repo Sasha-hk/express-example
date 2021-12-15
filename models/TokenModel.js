@@ -1,17 +1,30 @@
-const UserModel = require('./UserModel')
-const Sequelize = require('sequelize')
+'use strict';
 
+const UserModel = require('./UserModel');
 
-const TokenModel = Sequelize.define('token', {
-    user_id: {
-        type: Sequelize.STRING,
-        primaryKey: true,
-        reference: {
-            model: UserModel,
-            key: 'id',
-        }
-    }
-})
+module.exports = (sequelize, DataTypes) => {
+    const TokenModel = sequelize.define('User', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+            unique: true,
+        },
+        refresh_token: {
+            type: DataTypes.STRING,
+        },
+        // user_id: {
+        //     model: 'User',
+        //     key: 'id',
+        // }
+    }, {});
 
+    TokenModel.associate = function(models) {
+        TokenModel.hasMany(models.UserModel, {
+            as: 'user_id',
+            foreignKey: 'id'
+        })
+    };
 
-module.exports = TokenModel
+    return TokenModel;
+};
