@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize'
+const Sequelize = require('sequelize')
 
 
 const UserModel = Sequelize.define('user', {
@@ -12,4 +12,4 @@ const UserModel = Sequelize.define('user', {
 })
 
 
-export default UserModel
+module.exports = UserModel

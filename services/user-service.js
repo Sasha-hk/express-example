@@ -1,8 +1,7 @@
-import db from '../models/db.js'
-import TokenService from './token-service.js'
-import UserDto from '../dtos/userDto.js'
-import AuthenticationError from '../exceptions/AuthenticationError.js'
-import bcrypt from 'bcrypt'
+const TokenService = require('./token-service')
+const UserDto = require('../dtos/userDto')
+const AuthenticationError = require('../exceptions/AuthenticationError')
+const bcrypt = require('bcrypt')
 
 
 class UserService {
@@ -92,4 +91,4 @@ class UserService {
 }
 
 
-export default new UserService()
+module.exports = new UserService()

@@ -1,9 +1,8 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import cors from 'cors'
-import cookieParser from 'cookie-parser'
-// import router from './router/authentication.js'
-import Sequelize from 'sequelize'
+const cors = require('cors')
+const express = require('express')
+const dotenv = require('dotenv')
+const cookieParser = require('cookie-parser')
+const Sequelize = require('sequelize')
 
 
 dotenv.config()

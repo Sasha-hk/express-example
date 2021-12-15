@@ -1,6 +1,4 @@
-import UserService from '../services/user-service.js'
-import db from '../models/db.js'
-import AuthenticationError from '../exceptions/AuthenticationError.js'
+const UserService = require('../services/user-service')
 
 
 class UserController {
@@ -62,4 +60,4 @@ class UserController {
 }
 
 
-export default new UserController()
+module.exports = new UserController()
