@@ -2,7 +2,7 @@ const cors = require('cors')
 const express = require('express')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
-const {sequelize} = require('./models/')
+const { sequelize } = require('./models/')
 
 
 dotenv.config()
@@ -19,7 +19,12 @@ app.use(cors())
 
 const start = async () => {
     try {
-        sequelize.sync()
+        await sequelize.sync({  
+            force: true,
+        })
+
+        
+ 
         app.listen(PORT, () => {
             console.log(`Server started on port ${PORT}...`)
         }) 
