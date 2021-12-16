@@ -2,7 +2,7 @@ const cors = require('cors')
 const express = require('express')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
-const { sequelize } = require('./models/')
+const { sequelize, Token } = require('./models/')
 
 
 dotenv.config()
@@ -20,8 +20,15 @@ app.use(cors())
 const start = async () => {
     try {
         await sequelize.sync({  
-            force: true,
+            alter: true,
         })
+
+        const newUser = await Token.create({
+            refresh_token: 'adsf11',
+            // password: '123'
+        })
+        
+ 
 
         
  

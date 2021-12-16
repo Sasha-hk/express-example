@@ -2,7 +2,7 @@
 
 module.exports = (sequelize, DataTypes) => {
     const TokenModel = sequelize.define(
-        'User',
+        'Token',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -22,9 +22,10 @@ module.exports = (sequelize, DataTypes) => {
     );
 
     TokenModel.associate = function(models) {
-        TokenModel.belongsTo(models.User, {
-            as: 'user_id',
-            foreignKey: 'id'
+        TokenModel.belongsTo(models.User, 
+        {
+            as: 'user',
+            foreignKey: 'user_id'
         })
     };
 
