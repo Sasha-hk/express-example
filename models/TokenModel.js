@@ -2,7 +2,7 @@
 
 module.exports = (sequelize, DataTypes) => {
     const TokenModel = sequelize.define(
-        'Token', 
+        'Token',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -15,14 +15,17 @@ module.exports = (sequelize, DataTypes) => {
             },
         }, 
         {
-            timestamp: false
+            timestamp: false,
+            createdAt: false,
+            updatedAt: false,
         }
     );
 
     TokenModel.associate = function(models) {
-        TokenModel.hasOne(models.User, {
-            as: 'user_id',
-            foreignKey: 'id'
+        TokenModel.belongsTo(models.User, 
+        {
+            as: 'user',
+            foreignKey: 'user_id'
         })
     };
 
