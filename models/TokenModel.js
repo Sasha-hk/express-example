@@ -1,9 +1,8 @@
 'use strict';
 
-const UserModel = require('./UserModel');
 
 module.exports = (sequelize, DataTypes) => {
-    const TokenModel = sequelize.define('User', {
+    const TokenModel = sequelize.define('Token', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
