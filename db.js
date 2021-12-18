@@ -1,3 +1,4 @@
+const { sequelize, User } = require('./models/')
 const vars = require('./config/variables')
 var colors = require('colors')
 require('dotenv').config()
@@ -5,16 +6,19 @@ require('dotenv').config()
 const env = process.env.NODE_ENV || 'development'
 
 module.exports = async function connect() {
-    if (env.includes(vars.ALIAS_DEVELOPMENT)) {
+    if (vars.ALIAS_DEVELOPMENT.includes(env)) {
         await sequelize.sync({  
             alter: true,
+            logging: false
         })
     }
-    else if (env.includes(vars.ALIAS_PRODUCTION)) {
+    else if (vars.ALIAS_PRODUCTION.includes(env)) {
         await sequelize.connect()
     }
-    else if (env.includes(vars.ALIAS_TEST)) {
-        await sequelize.sync()
+    else if (vars.ALIAS_TEST.includes(env)) {
+        await sequelize.sync({
+            loggin: false
+        })
     }
     console.log('[server]'.green, 'Connected to database!')
 }
