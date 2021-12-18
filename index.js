@@ -1,8 +1,11 @@
 const cors = require('cors')
 const express = require('express')
 const dotenv = require('dotenv')
+const colors = require('colors')
 const cookieParser = require('cookie-parser')
-const { sequelize, Token } = require('./models/')
+const { sequelize, User } = require('./models/')
+const dbConnect = require('./db')
+const router = require('./router//authentication')
 
 
 dotenv.config()
@@ -15,26 +18,15 @@ app.use(cookieParser())
 app.use(cors())
 
 // router
-// app.use('/api', router)
+app.use('/api', router)
 
 const start = async () => {
     try {
-        await sequelize.sync({  
-            alter: true,
-        })
+        dbConnect()
 
-        const newUser = await Token.create({
-            refresh_token: 'adsf11',
-            // password: '123'
-        })
-        
- 
-
-        
- 
         app.listen(PORT, () => {
-            console.log(`Server started on port ${PORT}...`)
-        }) 
+            console.log('[server]'.green, `Server started http://localhost:${PORT}`)
+        })
     } 
     catch (e) {
         console.log(e)

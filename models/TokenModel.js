@@ -15,6 +15,8 @@ module.exports = (sequelize, DataTypes) => {
             },
         }, 
         {
+            tableName: 'tokens',
+            freezeTableName: true,
             timestamp: false,
             createdAt: false,
             updatedAt: false,
