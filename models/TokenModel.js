@@ -26,7 +26,6 @@ module.exports = (sequelize, DataTypes) => {
     TokenModel.associate = function(models) {
         TokenModel.belongsTo(models.User, 
         {
-            as: 'user',
             foreignKey: 'user_id'
         })
     };

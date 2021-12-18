@@ -1,9 +1,8 @@
 const { sequelize, User } = require('./models/')
 const vars = require('./config/variables')
 var colors = require('colors')
-require('dotenv').config()
-
 const env = process.env.NODE_ENV || 'development'
+
 
 module.exports = async function connect() {
     if (vars.ALIAS_DEVELOPMENT.includes(env)) {
