@@ -1,15 +1,17 @@
 module.exports = class AuthenticationError extends Error {
     status 
-    error 
+    error
+    message 
 
     constructor(status, message, errors = []) {
         super(message)
+        this.message = message
         this.status = status 
         this.error = errors
     }
 
     static EmailExists() {
-        return new AuthenticationError(400, 'User with whis email already exists')
+        return new AuthenticationError(400, 'User with this email already exists')
     }
 
     static EmailDoesNotExists() {

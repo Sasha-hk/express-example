@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv')
+const { Token } = require('../models')
 
 
 dotenv.config()
@@ -12,27 +13,31 @@ class TokenService {
         return {accessToken, refreshToken}
     }
 
-    async saveToken(userId, refreshToken) {
-        const existingToken = (await db.query(`
-            SELECT * FROM token WHERE user_id='${userId}';
-        `)).rows
+    async saveToken(user_id, refreshToken) {
+        const existingToken = await Token.findOne({
+            where: {
+                user_id
+            }
+        })
 
-        if (existingToken.length != 0) {
-            const existedSave = db.query(`
-                UPDATE token
-                SET refresh_token='${refreshToken}'
-                WHERE user_id=${userId};
-            `)
-            return existedSave
+        if (existingToken) {
+            const existedSave = await Token.update(
+                {
+                    refresh_token: refreshToken
+                },
+                {
+                    where: {
+                        user_id
+                    }
+                }
+            )
+            return existedSave.dataValues
         }
 
-        const newToken = (await db.query(`
-            INSERT INTO token (user_id, refresh_token) values
-            (
-                ${userId},
-                '${refreshToken}'
-            ) RETURNING *;
-        `)).rows[0]
+        const newToken = await Token.create({
+            user_id,
+            refresh_token: refreshToken
+        })
 
         return newToken
     }
@@ -55,28 +60,23 @@ class TokenService {
         }
     }
 
-    async removeToken(refreshToken) {
-        try {
-            const token = await db.query(`
-                DELETE FROM token  WHERE refresh_token='${refreshToken}'; 
-            `)
-            return token
-        }
-        catch (e) {
-            return null
-        }
+    async removeToken(refresh_token) {
+        const token = await Token.destroy({
+            where: {
+                refresh_token
+            }
+        })
+        return token 
     }
 
-    async findRefreshToken(refreshToken) {
-        try {
-            const token = (await db.query(`
-                SELECT * FROM token WHERE refresh_token = '${refreshToken}';
-            `)).rows[0]
-            return token
-        }
-        catch (e) {
-            return null
-        }
+    async findRefreshToken(refresh_token) {
+        const token = await Token.findOne({
+            raw: true,
+            where: {
+                refresh_token
+            }
+        })
+        return token
     }
 }
 
