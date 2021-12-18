@@ -1,13 +1,13 @@
+require('dotenv').config()
 const cors = require('cors')
 const express = require('express')
-const dotenv = require('dotenv')
 const colors = require('colors')
 const cookieParser = require('cookie-parser')
 const dbConnect = require('./db')
 const router = require('./router/authentication')
 
 
-dotenv.config()
+
 const PORT = process.env.PORT || 3000
 const app = express()
 const env = process.env.NODE_ENV || 'development'

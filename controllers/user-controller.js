@@ -20,7 +20,6 @@ class UserController {
         try {
             const {email, password} = req.body
             const userData = await UserService.logIn(email, password)
-            console.log(userData, 123123123)
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000})
             res.json(userData) 
         }
@@ -33,7 +32,6 @@ class UserController {
         try {
             const {refreshToken} = req.cookies
             const token = await UserService.logOut(refreshToken)
-            console.log(token)
             res.clearCookie('refreshToken');
             return res.json(token.rows);
         }
@@ -50,7 +48,6 @@ class UserController {
             res.json(userData)
         }
         catch (e) {
-            console.log(e)
             res.status(400).json(e)
         }
     }
