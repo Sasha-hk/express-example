@@ -1,4 +1,5 @@
 const UserService = require('../services/user-service')
+const { User } = require('../models')
 
 
 class UserController {
@@ -17,13 +18,14 @@ class UserController {
 
     async logIn(req, res, next) {
         try {
-            const {email, password} = req.body 
+            const {email, password} = req.body
             const userData = await UserService.logIn(email, password)
+            console.log(userData, 123123123)
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000})
             res.json(userData) 
         }
         catch (e) {
-            next(e)
+            res.json(e)
         }
     }
 
@@ -31,11 +33,12 @@ class UserController {
         try {
             const {refreshToken} = req.cookies
             const token = await UserService.logOut(refreshToken)
+            console.log(token)
             res.clearCookie('refreshToken');
             return res.json(token.rows);
         }
         catch (e) {
-            next(e)
+            res.status(400).json(e)
         }
     }
 
@@ -47,14 +50,13 @@ class UserController {
             res.json(userData)
         }
         catch (e) {
-            next(e)
+            console.log(e)
+            res.status(400).json(e)
         }
     }
 
     async getUsers(req, res, next) {
-        const users = (await db.query(`
-            SELECT * FROM usermodel;
-        `)).rows
+        const users = await User.findAll()
         res.json(users)
     }
 }

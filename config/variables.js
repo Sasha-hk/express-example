@@ -1,5 +1,5 @@
 module.exports = {
-    ALIAS_DEVELOPMENT: [
+    ALIAS_PRODUCTION: [
         'prod', 'production', 'PROD', 'PRODUCTION'
     ],
     ALIAS_DEVELOPMENT: [
