@@ -20,12 +20,10 @@ else {
 fs
     .readdirSync(__dirname)
     .filter(file => {
-        console.log(file)
         return (file.indexOf('.') !== 0) && (basename !== file) && (file.slice(-3) === '.js')
     })
     .forEach(file => {
         const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes)
-        console.log(' -- ', model)
         db[model.name] = model
     })
 
