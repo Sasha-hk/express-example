@@ -1,4 +1,4 @@
-# **Express-example**
+# 🚅 Express-example
 
 At first I used MongoDB database but now I rewrite it on PostgreSQL and vanilla SQL request, later I will rewrite It on sequelize ORM, also with PostgreSQL.
 
